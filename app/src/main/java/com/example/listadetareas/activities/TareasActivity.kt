@@ -15,7 +15,8 @@ class TareasActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // enableEdgeToEdge()
+
+        enableEdgeToEdge()
 
         binding = ActivityTareasBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -31,12 +32,13 @@ class TareasActivity : AppCompatActivity() {
             val nombreTarea = binding.nameTextField.editText?.text.toString()
 
             if (nombreTarea.isEmpty()) {
-                binding.nameTextField.error = "Escribe algo"
+                binding.nameTextField.error = "Debes de introducir una tarea"
                 return@setOnClickListener
             }
 
             if (nombreTarea.length > 50) {
-                binding.nameTextField.error = "Te pasaste"
+                binding.nameTextField.error =
+                    "Tienes un máximo de 50 caracteres para definir la tarea"
                 return@setOnClickListener
             }
 

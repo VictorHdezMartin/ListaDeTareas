@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        enableEdgeToEdge()
+        enableEdgeToEdge()     // vemos la funciones de la barra de arriba
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -38,9 +39,9 @@ class MainActivity : AppCompatActivity() {
         tareasDAO = Tareas_DAO(this)
 
         adapter = TareasAdapter(tareasList) {
-            val task = tareasList[it]
-            task.done = !task.done
-            tareasDAO.update(task)
+            val tarea = tareasList[it]
+            tarea.done = !tarea.done
+            tareasDAO.update(tarea)
             adapter.updateItems(tareasList)
         }
 
