@@ -13,7 +13,7 @@ class DataBase_Manager(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         private const val SQL_CREATE_TABLE =
             "create table ${class_Tarea.Companion.TABLE_NAME} (" +
                          "${class_Tarea.COLUMN_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
-                         "${class_Tarea.TABLE_NAME} TEXT," +
+                         "${class_Tarea.COLUMN_NAME} TEXT," +
                          "${class_Tarea.COLUMN_DONE} INTEGER)"
 
         private const val SQL_DELETE_TABLE = "DROP TABLE IF EXISTS ${class_Tarea.TABLE_NAME}"

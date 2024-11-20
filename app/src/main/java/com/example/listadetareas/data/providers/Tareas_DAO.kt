@@ -51,7 +51,7 @@ class Tareas_DAO(val context: Context) {
         }
     }
 
-    fun delete(task:class_Tarea){
+    fun delete(task: class_Tarea){
         try {
             openDB()
             val deletedRows = db.delete(class_Tarea.TABLE_NAME, "${class_Tarea.COLUMN_ID} = ${task.id}", null)
@@ -92,7 +92,8 @@ class Tareas_DAO(val context: Context) {
         return null
     }
 
-    fun findAll(): List<class_Tarea>{
+    fun findAll(): List<class_Tarea> {
+
         var list: MutableList<class_Tarea> = mutableListOf()
         val selectColumnas = arrayOf(class_Tarea.COLUMN_ID, class_Tarea.COLUMN_NAME, class_Tarea.COLUMN_DONE)
 
