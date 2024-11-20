@@ -11,7 +11,14 @@ import com.example.listadetareas.databinding.ActivityTareasBinding
 
 class TareasActivity : AppCompatActivity() {
 
+    companion object {
+        const val EXTRA_TASK_ID = "TASK_ID"
+    }
+
     lateinit var binding: ActivityTareasBinding
+
+    lateinit var taskDAO: Tareas_DAO
+    lateinit var task: class_Tarea
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,27 +34,34 @@ class TareasActivity : AppCompatActivity() {
             insets
         }
 
-        binding.saveButton.setOnClickListener {
+        taskDAO = Tareas_DAO(this)
 
+        binding.saveButton.setOnClickListener {
             val nombreTarea = binding.nameTextField.editText?.text.toString()
 
-            if (nombreTarea.isEmpty()) {
-                binding.nameTextField.error = "Debes de introducir una tarea"
+            if (validarNuevaTarea(nombreTarea) != true){
                 return@setOnClickListener
+            } else {
+                val tarea = class_Tarea(-1, nombreTarea)
+                val taskDAO = Tareas_DAO(this)
+                taskDAO.insert(tarea)
+
+                finish()
             }
-
-            if (nombreTarea.length > 50) {
-                binding.nameTextField.error =
-                    "Tienes un máximo de 50 caracteres para definir la tarea"
-                return@setOnClickListener
-            }
-
-            val tarea = class_Tarea(-1, nombreTarea)
-
-            val taskDAO = Tareas_DAO(this)
-            taskDAO.insert(tarea)
-
-            finish()
         }
+    }
+
+    fun validarNuevaTarea(nombreTarea: String): Boolean {
+        if (nombreTarea.isEmpty()) {
+            binding.nameTextField.error = "Debes de introducir una tarea"
+            return false
+        }
+
+        if (nombreTarea.length > 50) {
+            binding.nameTextField.error = "Tienes un máximo de 50 caracteres para definir la tarea"
+            return false
+        }
+
+        return true
     }
 }

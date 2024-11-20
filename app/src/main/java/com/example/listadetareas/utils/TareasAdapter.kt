@@ -7,12 +7,24 @@ import com.example.listadetareas.R
 import com.example.listadetareas.data.class_Tarea
 import com.example.listadetareas.databinding.ItemTareaBinding
 
-class TareasAdapter (var items: List<class_Tarea>, val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
+class TareasAdapter (var items: List<class_Tarea>,
+                     val onItemClick: (Int) -> Unit,
+                     val onItemCheck: (Int) -> Unit,
+                     val onItemDelete: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = items[position]
         holder.render(task)
+
         holder.itemView.setOnClickListener {
             onItemClick(position)
+        }
+        holder.binding.doneCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
+            if (checkBox.isPressed) {
+                onItemCheck(position)
+            }
+        }
+        holder.binding.deleteButton.setOnClickListener {
+            onItemDelete(position)
         }
     }
 
