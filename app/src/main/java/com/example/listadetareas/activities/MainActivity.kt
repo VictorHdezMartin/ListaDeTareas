@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         // Mostramos un dialogo para asegurarnos de que el usuario quiere borrar la tarea
         AlertDialog.Builder(this)
             .setTitle("Borrar tarea")
-            .setMessage(spannableDialogMSG(msgCab, msgTarea, true, 1))
+            .setMessage(spannableDialogMSG(msgCab, msgTarea, true, "uppercase"))
             .setPositiveButton(android.R.string.ok) { dialog, which ->
 
              // Borramos la tarea en caso de pulsar el boton OK
@@ -115,14 +115,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Cambiamos el texto en mayusculas, negrita y color
-    fun spannableDialogMSG(msgCab: String, msgTarea: String, negrita: Boolean, tipoLetra: Int): SpannableString {
+    fun spannableDialogMSG(msgCab: String, msgTarea: String, negrita: Boolean, tipoLetra: String): SpannableStringBuilder {
 
         val dialogMSG = SpannableStringBuilder()
         dialogMSG.append(msgCab)
 
-        var msg = when (tipoLetra) {
-            1 -> msgTarea.uppercase()
-            2 -> msgTarea.lowercase()
+        var msg = when (tipoLetra.uppercase()) {
+            "UPPERCASE" -> msgTarea.uppercase()
+            "LOWERCASE" -> msgTarea.lowercase()
             else -> msgTarea
         }
 

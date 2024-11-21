@@ -54,13 +54,22 @@ class TareasAdapter (var items: List<class_Tarea>,
 class ViewHolder(val binding: ItemTareaBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun render(task: class_Tarea) {
+        val context = itemView.context
+
         binding.nameTextView.text = task.name
         binding.doneCheckBox.isChecked = task.done
 
-        if (task.done)
-           binding.estadoTarea.setBackgroundResource(R.color.purple_200)
-        else
+        if (task.done) {
+            binding.estadoTarea.setBackgroundResource(R.color.purple_200)
+            binding.deleteButton.isEnabled = true
+            binding.deleteButton.setColorFilter(context.getColor(R.color.delete))
+
+
+        } else {
             binding.estadoTarea.setBackgroundResource(R.color.white)
+            binding.deleteButton.isEnabled = false
+            binding.deleteButton.setColorFilter(context.getColor(R.color.black))
+        }
     }
 }
 

@@ -5,36 +5,39 @@
 
     android:id="@+id/estadoTarea"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="8dp"
+    android:layout_height="40dp"
+    android:paddingHorizontal="2dp"
+    android:paddingVertical="2dp"
     android:gravity="center_vertical"
     android:background="?android:attr/selectableItemBackground">
 
     <CheckBox
         android:id="@+id/doneCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="5"
         android:text="Tarea"
-        android:textSize="24sp"/>
+        android:textSize="16sp"/>
 
     <ImageButton
         android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:src="@drawable/icono_delete"
         app:tint="@color/delete"/>
 
     <ImageButton
         android:id="@+id/editButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:src="@drawable/icono_editar"
         app:tint="#263DCD"/>
 
