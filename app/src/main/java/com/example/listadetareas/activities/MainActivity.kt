@@ -44,24 +44,27 @@ class MainActivity : AppCompatActivity() {
         tareasDAO = Tareas_DAO(this)
 
         adapter = TareasAdapter(tareasList,
-            {  // editar tarea
-                val tarea = tareasList[it]
-                showTarea(tarea)
-            },
 
-            { //marcar tarea
-                val tarea = tareasList[it]
-                checkTarea(tarea)
-            },
+                       //----  EDIT tarea  -------
+                               {
+                                val tarea = tareasList[it]
+                                showTarea(tarea)
+                               },
 
-            {  // borrar tarea
-                val tarea = tareasList[it]
-                deleteTarea(tarea)
-            })
+                       //----  CHECK tarea  ------
+                               {
+                                 val tarea = tareasList[it]
+                                 checkTarea(tarea)
+                                },
+
+                       //----  DELETE tarea  ------
+                               {  // borrar tarea
+                                 val tarea = tareasList[it]
+                                 deleteTarea(tarea)
+                               })
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         // abrimos el layout "activity_tareas" para dar de alta una tarea
         binding.addTaskButton.setOnClickListener {

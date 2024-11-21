@@ -16,21 +16,21 @@ class TareasAdapter (var items: List<class_Tarea>,
         val task = items[position]
         holder.render(task)
 
-     // cuando hacemos click en el item seleccionado del MainActivity
+     // cuando hacemos CLICK en el item seleccionado del MainActivity
         holder.itemView.setOnClickListener {
             onItemClick(position)
         }
-     // cuando hacemos click en el checkBox del item en el MainActivity
+     // cuando hacemos click en el CHECKBOX del item en el MainActivity
         holder.binding.doneCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
             if (checkBox.isPressed) {
                 onItemCheck(position)
             }
         }
-
+     // cuando hacemos click en el boton DELETE del item en el MainActivity
         holder.binding.deleteButton.setOnClickListener {
             onItemDelete(position)
         }
-
+    // cuando hacemos CLICK en el item seleccionado del MainActivity
         holder.binding.editButton.setOnClickListener {
             onItemClick(position)
         }
@@ -52,23 +52,23 @@ class TareasAdapter (var items: List<class_Tarea>,
 }
 
 class ViewHolder(val binding: ItemTareaBinding) : RecyclerView.ViewHolder(binding.root) {
-
     fun render(task: class_Tarea) {
-        val context = itemView.context
 
-        binding.nameTextView.text = task.name
-        binding.doneCheckBox.isChecked = task.done
+        val context = itemView.context     // contexto para poder cambiar el color del icono "ICONO_DELETE"
 
-        if (task.done) {
-            binding.estadoTarea.setBackgroundResource(R.color.purple_200)
-            binding.deleteButton.isEnabled = true
-            binding.deleteButton.setColorFilter(context.getColor(R.color.delete))
+        with (binding) {
+            nameTextView.text = task.name
+            doneCheckBox.isChecked = task.done
 
-
-        } else {
-            binding.estadoTarea.setBackgroundResource(R.color.white)
-            binding.deleteButton.isEnabled = false
-            binding.deleteButton.setColorFilter(context.getColor(R.color.black))
+            if (task.done) {
+                estadoTarea.setBackgroundResource(R.color.purple_200)
+                deleteButton.isEnabled = true
+                deleteButton.setColorFilter(context.getColor(R.color.delete))
+            } else {
+                estadoTarea.setBackgroundResource(R.color.white)
+                deleteButton.isEnabled = false
+                deleteButton.setColorFilter(context.getColor(R.color.white))
+            }
         }
     }
 }
