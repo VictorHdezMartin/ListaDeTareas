@@ -5,7 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.listadetareas.data.class_Tarea
+import com.example.listadetareas.data.entities.class_Tarea
 import com.example.listadetareas.data.providers.Tareas_DAO
 import com.example.listadetareas.databinding.ActivityTareasBinding
 

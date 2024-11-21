@@ -3,7 +3,7 @@ package com.example.listadetareas.utils
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.listadetareas.data.class_Tarea
+import com.example.listadetareas.data.entities.class_Tarea
 
 class DataBase_Manager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {

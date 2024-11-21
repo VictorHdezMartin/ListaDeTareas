@@ -1,10 +1,10 @@
-package com.example.listadetareas.utils
+package com.example.listadetareas.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listadetareas.R
-import com.example.listadetareas.data.class_Tarea
+import com.example.listadetareas.data.entities.class_Tarea
 import com.example.listadetareas.databinding.ItemTareaBinding
 
 class TareasAdapter (var items: List<class_Tarea>,

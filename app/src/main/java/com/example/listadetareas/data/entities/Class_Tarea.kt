@@ -1,4 +1,4 @@
-package com.example.listadetareas.data
+package com.example.listadetareas.data.entities
 
 data class class_Tarea (
     val id: Long,

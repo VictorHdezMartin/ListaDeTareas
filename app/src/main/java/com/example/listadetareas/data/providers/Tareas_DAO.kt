@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
-import com.example.listadetareas.data.class_Tarea
+import com.example.listadetareas.data.entities.class_Tarea
 import com.example.listadetareas.utils.DataBase_Manager
 
 class Tareas_DAO(val context: Context) {

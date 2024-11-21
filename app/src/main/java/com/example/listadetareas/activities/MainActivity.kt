@@ -9,10 +9,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.listadetareas.R
-import com.example.listadetareas.data.class_Tarea
+import com.example.listadetareas.data.entities.class_Tarea
 import com.example.listadetareas.data.providers.Tareas_DAO
 import com.example.listadetareas.databinding.ActivityMainBinding
-import com.example.listadetareas.utils.TareasAdapter
+import com.example.listadetareas.adapters.TareasAdapter
 
 class MainActivity : AppCompatActivity() {
 
