@@ -16,10 +16,11 @@ class TareasAdapter (var items: List<class_Tarea>,
         val task = items[position]
         holder.render(task)
 
+     // cuando hacemos click en el item seleccionado del MainActivity
         holder.itemView.setOnClickListener {
             onItemClick(position)
         }
-
+     // cuando hacemos click en el checkBox del item en el MainActivity
         holder.binding.doneCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
             if (checkBox.isPressed) {
                 onItemCheck(position)
@@ -28,6 +29,10 @@ class TareasAdapter (var items: List<class_Tarea>,
 
         holder.binding.deleteButton.setOnClickListener {
             onItemDelete(position)
+        }
+
+        holder.binding.editButton.setOnClickListener {
+            onItemClick(position)
         }
     }
 

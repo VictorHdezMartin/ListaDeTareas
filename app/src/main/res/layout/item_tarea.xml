@@ -30,4 +30,12 @@
         android:layout_height="wrap_content"
         android:src="@drawable/icono_delete"
         app:tint="@color/delete"/>
+
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icono_editar"
+        app:tint="#263DCD"/>
+
 </LinearLayout>

@@ -16,7 +16,6 @@ class TareasActivity : AppCompatActivity() {
     }
 
     lateinit var binding: ActivityTareasBinding
-
     lateinit var taskDAO: Tareas_DAO
     lateinit var tarea: class_Tarea
 
