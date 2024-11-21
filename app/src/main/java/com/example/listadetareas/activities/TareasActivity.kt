@@ -18,7 +18,7 @@ class TareasActivity : AppCompatActivity() {
     lateinit var binding: ActivityTareasBinding
 
     lateinit var taskDAO: Tareas_DAO
-    lateinit var task: class_Tarea
+    lateinit var tarea: class_Tarea
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,16 @@ class TareasActivity : AppCompatActivity() {
 
         taskDAO = Tareas_DAO(this)
 
+     // Si nos pasan un id es que queremos editar una tarea existente
+        val id = intent.getLongExtra(EXTRA_TASK_ID, -1L)
+
+        if (id != -1L) {
+            tarea = taskDAO.findById(id)!!
+            binding.nameTextField.editText?.setText(tarea.name)
+        } else {
+            tarea = class_Tarea(-1, "")
+        }
+
         binding.saveButton.setOnClickListener {
             val nombreTarea = binding.nameTextField.editText?.text.toString()
 
@@ -51,6 +61,7 @@ class TareasActivity : AppCompatActivity() {
         }
     }
 
+ // Comprobamos el texto introducido para mostrar posibles errores
     fun validarNuevaTarea(nombreTarea: String): Boolean {
         if (nombreTarea.isEmpty()) {
             binding.nameTextField.error = "Debes de introducir una tarea"

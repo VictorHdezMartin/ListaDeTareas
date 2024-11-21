@@ -10,11 +10,11 @@ data class class_Tarea (
 
     companion object {
         const val TABLE_NAME  = "TBL_Tareas"
-        const val COLUMN_ID   = "ID"
+        const val COLUMN_ID   = "id"
         const val COLUMN_NAME = "nombreTarea"
      //   const val COLUMN_FECHASTART = "fechaInicio"
      //   const val COLUMN_FECHAEND = "fechaFin"
      //   const val COLUMN_HORAFIN = "horaFin"
-        const val COLUMN_DONE = "finalizada"
+        const val COLUMN_DONE = "realizada"
     }
 }

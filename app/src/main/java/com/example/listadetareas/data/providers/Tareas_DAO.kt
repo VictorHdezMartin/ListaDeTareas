@@ -10,22 +10,25 @@ import com.example.listadetareas.utils.DataBase_Manager
 class Tareas_DAO(val context: Context) {
 
     private lateinit var db: SQLiteDatabase
-    fun openDB(){
+
+    private fun openDB(){
         db = DataBase_Manager(context).writableDatabase
     }
-    fun closeDB(){
+
+    private fun closeDB(){
         db.close()
     }
 
-    fun insert(task: class_Tarea){
+    fun insert(tarea: class_Tarea){
+
         val values = ContentValues().apply {
-            put(class_Tarea.COLUMN_NAME, task.name)
-            put(class_Tarea.COLUMN_DONE, task.done)
+            put(class_Tarea.COLUMN_NAME, tarea.name)
+            put(class_Tarea.COLUMN_DONE, tarea.done)
         }
 
         try {
            openDB()
-           val updateRows =  db.insert(class_Tarea.TABLE_NAME, null, values)
+           val id =  db.insert(class_Tarea.TABLE_NAME, null, values)
 
         } catch (e: Exception){
             Log.e("DB", e.stackTraceToString())
@@ -35,15 +38,16 @@ class Tareas_DAO(val context: Context) {
         }
     }
 
-    fun update(task:class_Tarea){
+    fun update(tarea: class_Tarea){
+
         val values = ContentValues().apply {
-            put(class_Tarea.COLUMN_NAME, task.name)
-            put(class_Tarea.COLUMN_DONE, task.done)
+            put(class_Tarea.COLUMN_NAME, tarea.name)
+            put(class_Tarea.COLUMN_DONE, tarea.done)
         }
 
         try {
             openDB()
-            val updateRows =  db.update(class_Tarea.TABLE_NAME, values, "${class_Tarea.COLUMN_ID} = ${task.id}", null)
+            val updateRows =  db.update(class_Tarea.TABLE_NAME, values, "${class_Tarea.COLUMN_ID} = ${tarea.id}", null)
         } catch (e: Exception){
             Log.e("DB", e.stackTraceToString())
         } finally{
@@ -51,10 +55,10 @@ class Tareas_DAO(val context: Context) {
         }
     }
 
-    fun delete(task: class_Tarea){
+    fun delete(tarea: class_Tarea){
         try {
             openDB()
-            val deletedRows = db.delete(class_Tarea.TABLE_NAME, "${class_Tarea.COLUMN_ID} = ${task.id}", null)
+            val deletedRows = db.delete(class_Tarea.TABLE_NAME, "${class_Tarea.COLUMN_ID} = ${tarea.id}", null)
         } catch (e: Exception) {
             Log.e("DB", e.stackTraceToString())
         } finally {
@@ -124,5 +128,4 @@ class Tareas_DAO(val context: Context) {
         }
         return list
     }
-
 }

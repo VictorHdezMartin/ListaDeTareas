@@ -1,6 +1,5 @@
 package com.example.listadetareas.activities
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -13,7 +12,6 @@ import com.example.listadetareas.R
 import com.example.listadetareas.data.class_Tarea
 import com.example.listadetareas.data.providers.Tareas_DAO
 import com.example.listadetareas.databinding.ActivityMainBinding
-import com.example.listadetareas.utils.DataBase_Manager
 import com.example.listadetareas.utils.TareasAdapter
 
 class MainActivity : AppCompatActivity() {
@@ -21,12 +19,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var adapter: TareasAdapter
     lateinit var tareasDAO: Tareas_DAO
-    var tareasList: List<class_Tarea> = emptyList()
+    var tareasList: MutableList<class_Tarea> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge()     // vemos la funciones de la barra de arriba
+        enableEdgeToEdge()               // vemos la funciones de la barra de arriba
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -42,22 +40,21 @@ class MainActivity : AppCompatActivity() {
         adapter = TareasAdapter(tareasList,
             {  // editar tarea
                 val tarea = tareasList[it]
-                tarea.done = !tarea.done
-                tareasDAO.update(tarea)
-                adapter.updateItems(tareasList)},
+                showTask(tarea)},
 
             { //marcar tarea
                 val tarea = tareasList[it]
-                showTask(tarea)},
+                checkTarea(tarea)},
 
             {  // borrar tarea
                 val tarea = tareasList[it]
-                checkTarea(tarea)
+                deleteTarea(tarea)
             })
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+     // crear tarea
         binding.addTaskButton.setOnClickListener {
             val intent = Intent(this, TareasActivity::class.java)
             startActivity(intent)
@@ -67,28 +64,30 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        tareasList = tareasDAO.findAll()
-
+     // Cargamos la lista por si se hubiera añadido una tarea nueva
+        tareasList = tareasDAO.findAll().toMutableList()
         adapter.updateItems(tareasList)
     }
 
-    // Funcion para cuando marcamos una tarea (finalizada/pendiente)
-    fun checkTarea(task: class_Tarea) {
-        task.done = !task.done
-        Tareas_DAO.update(task)
+ // Funcion para cuando marcamos una tarea (finalizada/pendiente)
+    fun checkTarea(tarea: class_Tarea) {
+        tarea.done = !tarea.done
+        Tareas_DAO.update(tarea)
         adapter.updateItems(tareasList)
     }
 
-    // Funciona para mostrar un dialogo para borrar la tarea
-    fun deleteTask(task: class_Tarea) {
-        // Mostramos un dialogo para asegurarnos de que el usuario quiere borrar la tarea
+ // Funciona para mostrar un dialogo para borrar la tarea
+    fun deleteTarea(tarea: class_Tarea) {
+
+     // Mostramos un dialogo para asegurarnos de que el usuario quiere borrar la tarea
         AlertDialog.Builder(this)
             .setTitle("Borrar tarea")
             .setMessage("Estas seguro de que quieres borrar la tarea?")
             .setPositiveButton(android.R.string.ok) { dialog, which ->
-                // Borramos la tarea en caso de pulsar el boton OK
-                Tareas_DAO.delete(task)
-                tareasList.remove(task)
+
+             // Borramos la tarea en caso de pulsar el boton OK
+                Tareas_DAO.delete(tarea)
+                tareasList.remove(tarea)
                 adapter.updateItems(tareasList)
             }
             .setNegativeButton(android.R.string.cancel, null)
@@ -96,13 +95,10 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    // Mostramos la tarea para editarla
-    fun showTask(task: class_Tarea) {
+ // Mostramos la tarea para editarla
+    fun showTask(tarea: class_Tarea) {
         val intent = Intent(this, TareasActivity::class.java)
-        intent.putExtra(TareasActivity.EXTRA_TASK_ID, task.id)
+        intent.putExtra(TareasActivity.EXTRA_TASK_ID, tarea.id)
         startActivity(intent)
     }
-
-
-
 }
