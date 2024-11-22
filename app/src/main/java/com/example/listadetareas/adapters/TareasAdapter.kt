@@ -13,12 +13,13 @@ class TareasAdapter (var items: List<class_Tarea>,
                      val onItemDelete: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val task = items[position]
         holder.render(task)
 
      // cuando hacemos CLICK en el item seleccionado del MainActivity
         holder.itemView.setOnClickListener {
-            onItemClick(position)
+          //  onItemClick(position)                        // evitamos que al dar click en el item de la tarea nos vaya a su edición
         }
      // cuando hacemos click en el CHECKBOX del item en el MainActivity
         holder.binding.doneCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->

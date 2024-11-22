@@ -44,8 +44,10 @@ class TareasActivity : AppCompatActivity() {
         if (isEdit) {
             tarea = taskDAO.findById(id)!!                                       // buscamos la tarea en cuestión
             binding.nameTextField.editText?.setText(tarea.name)                  // class_Tarea.name -> TareaTextEdit
+            binding.saveButton.setText("Actualizar tarea")
         } else {
             tarea = class_Tarea(-1, "")                                // tarea nueva
+            binding.saveButton.setText("Guardar tarea")
         }
 
         enabledSaveButton()                                                     // ¿Habilitar botón guardar tarea?
