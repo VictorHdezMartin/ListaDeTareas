@@ -2,7 +2,7 @@ package com.example.listadetareas.data.entities
 
 data class class_Tarea (
     val id: Long,
-    val name: String,
+    var name: String,
   //  var fechaStart: Long = 35789,
   //  var fechaEnd: Long = 35789,
   //  var hora: Long = 2000,
