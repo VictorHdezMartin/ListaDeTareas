@@ -35,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="24dp"
-            android:text="Guardar tarea"/>
+            android:text="Crear tarea"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

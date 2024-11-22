@@ -47,7 +47,7 @@ class TareasActivity : AppCompatActivity() {
             binding.saveButton.setText("Actualizar tarea")
         } else {
             tarea = class_Tarea(-1, "")                                // tarea nueva
-            binding.saveButton.setText("Guardar tarea")
+            binding.saveButton.setText("Crear tarea")
         }
 
         enabledSaveButton()                                                     // ¿Habilitar botón guardar tarea?
