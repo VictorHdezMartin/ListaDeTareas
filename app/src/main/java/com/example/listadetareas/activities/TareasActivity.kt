@@ -9,6 +9,10 @@ import androidx.core.widget.addTextChangedListener
 import com.example.listadetareas.data.entities.class_Tarea
 import com.example.listadetareas.data.providers.Tareas_DAO
 import com.example.listadetareas.databinding.ActivityTareasBinding
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Date
 
 class TareasActivity : AppCompatActivity() {
 
@@ -34,48 +38,60 @@ class TareasActivity : AppCompatActivity() {
             insets
         }
 
-        taskDAO = Tareas_DAO(this)                                       // instanciamos la operatividad de DAO para este activity
+        taskDAO = Tareas_DAO(this)                                                          // instanciamos la operatividad de DAO para este activity
 
         // Si nos pasan un id es que queremos editar una tarea existente
         val id = intent.getLongExtra(EXTRA_TASK_ID, -1L)
 
-        var isEdit: Boolean = id != -1L                                          // vemos is editamos la tarea
+        var isEdit: Boolean = id != -1L                                                             // vemos is editamos la tarea
 
         if (isEdit) {
-            tarea = taskDAO.findById(id)!!                                       // buscamos la tarea en cuestión
-            binding.nameTextField.editText?.setText(tarea.name)                  // class_Tarea.name -> TareaTextEdit
+            tarea = taskDAO.findById(id)!!                                                          // buscamos la tarea en cuestión
+            binding.nameTextField.editText?.setText(tarea.name)                                     // class_Tarea.name -> TareaTextEdit
+            binding.fechaStartTextField.editText?.setText(tarea.fechaStart)
+            binding.fechaFinTextField.editText?.setText(tarea.fechaEnd)
+            binding.blogTextField.editText?.setText(tarea.observaciones)
+
             binding.saveButton.setText("Actualizar tarea")
         } else {
-            tarea = class_Tarea(-1, "")                                // tarea nueva
+            tarea = class_Tarea(-1,                                                             // tarea nueva
+                              "",
+                                    LocalDateTime.now().toString(),  // fecha de creación
+                                    LocalDateTime.now().toString(),  // fecha de inicio
+                                    LocalDateTime.now().toString())  // fecha fin
+
+            binding.nameTextField.editText?.setText(tarea.name)                                     // class_Tarea.name -> TareaTextEdit
+            binding.fechaStartTextField.editText?.setText(tarea.fechaStart)
+            binding.fechaFinTextField.editText?.setText(tarea.fechaEnd)
+
             binding.saveButton.setText("Crear tarea")
         }
-
-        enabledSaveButton()                                                     // ¿Habilitar botón guardar tarea?
+        enabledSaveButton()                                                                         // ¿Habilitar botón guardar tarea?
 
      // listener mientrar estamos escribimos  ------------------------------------------------------
         binding.nameTextField.editText?.addTextChangedListener {
-            val nombreTarea = binding.nameTextField.editText?.text.toString()     // TareaEditText -> nombreTarea
+            val nombreTarea = binding.nameTextField.editText?.text.toString()                       // TareaEditText -> nombreTarea
 
-            enabledSaveButton()                                                   // ¿Habilitar botón guardar tarea?
-            checkTamanoTarea(nombreTarea)                                         // comprobamos tamaño encaracteres de la tarea
+            enabledSaveButton()                                                                     // ¿Habilitar botón guardar tarea?
+            checkTamanoTarea(nombreTarea)                                                           // comprobamos tamaño encaracteres de la tarea
         }
 
      // listener al pulsar el botón de guardar
         binding.saveButton.setOnClickListener {
-            val nombreTarea = binding.nameTextField.editText?.text.toString()     // TareaEditText -> nombreTarea
+            val nombreTarea = binding.nameTextField.editText?.text.toString()                       // TareaEditText -> nombreTarea
 
-            if (validarNuevaTarea(nombreTarea) != true) {                         // validamos la tarea (nombreTarea)
+            if (validarNuevaTarea(nombreTarea) != true) {                                           // validamos la tarea (nombreTarea)
                 return@setOnClickListener
             } else {
-                tarea.name = nombreTarea                                          // nombreTarea -> class_Tarea.Name
+                tarea.name = nombreTarea                                                            // nombreTarea -> class_Tarea.Name
 
                 if (isEdit) {
-                    taskDAO.update(tarea)                                         // como existe, la actualizamos
+                    taskDAO.update(tarea)                                                           // como existe, la actualizamos
                 } else {
-                    taskDAO.insert(tarea)                                         // al ser nueva la creamos
+                    taskDAO.insert(tarea)                                                           // al ser nueva la creamos
                 }
 
-                finish()                                                          // salimos del TareasActivity y vamos al MainActivity
+                finish()                                                                            // salimos del TareasActivity y vamos al MainActivity
             }
         }
     }
@@ -111,6 +127,25 @@ class TareasActivity : AppCompatActivity() {
         }
 
      return false
+    }
 
+// Convertir un Long a DateTime  -------------------------------------------------------------------
+    fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
+        return format.format(date)
+    }
+// Hora del sistema a Long  ------------------------------------------------------------------------
+    fun currentTimeToLong(): Long {
+        return System.currentTimeMillis()
+    }
+// Convertir DateTime a Long  ----------------------------------------------------------------------
+    fun convertDateToLong(date: LocalDate): Long {
+        val df = SimpleDateFormat("yyyy.MM.dd HH:mm")
+        return df.parse(date.toString()).time
+    }
+// Obtenemos la fecha del sistema en Long  ---------------------------------------------------------
+    fun fechaSistemaLong(): LocalDateTime {
+        return LocalDateTime.now()
     }
 }

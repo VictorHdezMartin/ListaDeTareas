@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
+import androidx.core.database.getBlobOrNull
 import com.example.listadetareas.data.entities.class_Tarea
 import com.example.listadetareas.utils.DataBase_Manager
 
@@ -11,22 +12,28 @@ class Tareas_DAO(val context: Context) {
 
     private lateinit var db: SQLiteDatabase
 
+// Abrir base de datos  ----------------------------------------------------------------------------
+
     private fun openDB(){
         db = DataBase_Manager(context).writableDatabase
     }
+
+// Cerrar base de datos  ---------------------------------------------------------------------------
 
     private fun closeDB(){
         db.close()
     }
 
-    fun insert(tarea: class_Tarea){
+// Insertar un nuevo elemento  ---------------------------------------------------------------------
 
+    fun insert(tarea: class_Tarea){
         val values = ContentValues().apply {
-            put(class_Tarea.COLUMN_NAME,        tarea.name)
-            put(class_Tarea.COLUMN_FECHACREATE, tarea.fechaCreate)
-            put(class_Tarea.COLUMN_FECHASTART,  tarea.fechaStart)
-            put(class_Tarea.COLUMN_FECHAEND,    tarea.fechaEnd)
-            put(class_Tarea.COLUMN_DONE,        tarea.done)
+            put(class_Tarea.COLUMN_NAME,          tarea.name)
+            put(class_Tarea.COLUMN_FECHACREATE,   tarea.fechaCreate)
+            put(class_Tarea.COLUMN_FECHASTART,    tarea.fechaStart)
+            put(class_Tarea.COLUMN_FECHAEND,      tarea.fechaEnd)
+            put(class_Tarea.COLUMN_OBSERVACIONES, tarea.observaciones)
+            put(class_Tarea.COLUMN_DONE,          tarea.done)
         }
 
         try {
@@ -41,13 +48,15 @@ class Tareas_DAO(val context: Context) {
         }
     }
 
-    fun update(tarea: class_Tarea){
+// Actualizar un elemento  -------------------------------------------------------------------------
 
+    fun update(tarea: class_Tarea){
         val values = ContentValues().apply {
-            put(class_Tarea.COLUMN_NAME,       tarea.name)
-            put(class_Tarea.COLUMN_FECHASTART, tarea.fechaStart)
-            put(class_Tarea.COLUMN_FECHAEND,   tarea.fechaEnd)
-            put(class_Tarea.COLUMN_DONE,       tarea.done)
+            put(class_Tarea.COLUMN_NAME,          tarea.name)
+            put(class_Tarea.COLUMN_FECHASTART,    tarea.fechaStart)
+            put(class_Tarea.COLUMN_FECHAEND,      tarea.fechaEnd)
+            put(class_Tarea.COLUMN_OBSERVACIONES, tarea.observaciones)
+            put(class_Tarea.COLUMN_DONE,          tarea.done)
         }
 
         try {
@@ -60,6 +69,8 @@ class Tareas_DAO(val context: Context) {
         }
     }
 
+// Borrar un elemento  -----------------------------------------------------------------------------
+
     fun delete(tarea: class_Tarea){
         try {
             openDB()
@@ -71,8 +82,16 @@ class Tareas_DAO(val context: Context) {
         }
     }
 
+// Buscar un elemento por su ID  -------------------------------------------------------------------
+
     fun findById(id: Long): class_Tarea? {
-        val selectColumnas = arrayOf(class_Tarea.COLUMN_ID, class_Tarea.COLUMN_NAME, class_Tarea.COLUMN_DONE)
+        val selectColumnas = arrayOf(class_Tarea.COLUMN_ID,
+                                     class_Tarea.COLUMN_NAME,
+                                     class_Tarea.COLUMN_FECHACREATE,
+                                     class_Tarea.COLUMN_FECHASTART,
+                                     class_Tarea.COLUMN_FECHAEND,
+                                     class_Tarea.COLUMN_OBSERVACIONES,
+                                     class_Tarea.COLUMN_DONE)
 
         try {
             openDB()
@@ -89,9 +108,13 @@ class Tareas_DAO(val context: Context) {
             if (cursor.moveToNext()) {
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_ID))
                 val name = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_NAME))
+                val fechaCreate = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_FECHACREATE))
+                val fechaStart = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_FECHASTART))
+                val fechaEnd = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_FECHAEND))
+                val comentario = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_OBSERVACIONES))
                 val done = cursor.getInt(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_DONE)) != 0
 
-                return class_Tarea(id, name, done)
+                return class_Tarea(id, name, fechaCreate, fechaStart, fechaEnd, comentario, done)
             }
         } catch (e: Exception) {
             Log.e("DB", e.stackTraceToString())
@@ -101,10 +124,18 @@ class Tareas_DAO(val context: Context) {
         return null
     }
 
+// Buscar todos los elementos de la base de datos  (tabla)  ----------------------------------------
+
     fun findAll(): List<class_Tarea> {
 
         var list: MutableList<class_Tarea> = mutableListOf()
-        val selectColumnas = arrayOf(class_Tarea.COLUMN_ID, class_Tarea.COLUMN_NAME, class_Tarea.COLUMN_DONE)
+        val selectColumnas = arrayOf(class_Tarea.COLUMN_ID,
+                                     class_Tarea.COLUMN_NAME,
+                                     class_Tarea.COLUMN_FECHACREATE,
+                                     class_Tarea.COLUMN_FECHASTART,
+                                     class_Tarea.COLUMN_FECHAEND,
+                                     class_Tarea.COLUMN_OBSERVACIONES,
+                                     class_Tarea.COLUMN_DONE)
 
         try {
             openDB()
@@ -121,10 +152,15 @@ class Tareas_DAO(val context: Context) {
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_ID))
                 val name = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_NAME))
+                val fechaCreate = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_FECHACREATE))
+                val fechaStart = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_FECHASTART))
+                val fechaEnd = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_FECHAEND))
+                val comentario = cursor.getString(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_OBSERVACIONES))
                 val done = cursor.getInt(cursor.getColumnIndexOrThrow(class_Tarea.COLUMN_DONE)) != 0
 
-                val task = class_Tarea(id, name, done)
-                list.add(task)
+                val tarea = class_Tarea(id, name, fechaCreate, fechaStart, fechaEnd, comentario, done)
+
+                list.add(tarea)                                                                     // añadimos la tarea a la lista
             }
         } catch (e: Exception) {
             Log.e("DB", e.stackTraceToString())

@@ -41,4 +41,12 @@
         android:src="@drawable/icono_editar"
         app:tint="#263DCD"/>
 
+    <ImageButton
+        android:id="@+id/copyButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/icono_copiar"
+        app:tint="#263DCD"/>
+
 </LinearLayout>

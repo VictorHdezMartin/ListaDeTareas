@@ -11,7 +11,6 @@ import android.text.style.StyleSpan
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,10 +60,16 @@ class MainActivity : AppCompatActivity() {
                                 },
 
                        //----  DELETE tarea  ------
-                               {  // borrar tarea
+                               {
                                  val tarea = tareasList[it]
                                  deleteTarea(tarea)
-                               })
+                               },
+
+                      //----- DUPLICAR tarea -----
+                              {
+                                 val tarea = tareasList[it]
+                                 duplicateTarea(tarea)
+                              })
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -78,10 +83,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        RealoadItems()                 // Cargamos la lista por si se hubiera añadido una tarea nueva
+    }
 
-        // Cargamos la lista por si se hubiera añadido una tarea nueva
-        tareasList = tareasDAO.findAll().toMutableList()
-        adapter.updateItems(tareasList)
+ // Recargar Items  --------------------------------------------------------------------------------
+    fun RealoadItems(){
+     tareasList = tareasDAO.findAll().toMutableList()
+     adapter.updateItems(tareasList)
     }
 
  // Funcion para cuando marcamos una tarea (finalizada/pendiente)
@@ -91,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         adapter.updateItems(tareasList)
     }
 
-    // Funciona para mostrar un dialogo para borrar la tarea
+ // Funciona para mostrar un dialogo para borrar la tarea
     fun deleteTarea(tarea: class_Tarea) {
 
         var msgCab: String = "¿Estás seguro de querer borrar ésta tarea? \n\n"
@@ -110,6 +118,12 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton(android.R.string.cancel, null)
             .setIcon(R.drawable.icono_delete)
             .show()
+    }
+
+    // Duplicamos la tarea
+    fun duplicateTarea(tarea: class_Tarea){
+        tareasDAO.insert(tarea)
+        RealoadItems()
     }
 
  // Mostramos la tarea para editarla ---------------------------------------------------------------

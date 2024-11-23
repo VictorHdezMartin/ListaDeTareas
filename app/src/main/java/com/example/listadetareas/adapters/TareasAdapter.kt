@@ -1,5 +1,6 @@
 package com.example.listadetareas.adapters
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,10 +8,12 @@ import com.example.listadetareas.R
 import com.example.listadetareas.data.entities.class_Tarea
 import com.example.listadetareas.databinding.ItemTareaBinding
 
+
 class TareasAdapter (var items: List<class_Tarea>,
                      val onItemClick: (Int) -> Unit,
                      val onItemCheck: (Int) -> Unit,
-                     val onItemDelete: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
+                     val onItemDelete: (Int) -> Unit,
+                     val onItemDuplicate: (Int) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
@@ -19,7 +22,7 @@ class TareasAdapter (var items: List<class_Tarea>,
 
      // cuando hacemos CLICK en el item seleccionado del MainActivity
         holder.itemView.setOnClickListener {
-          //  onItemClick(position)                        // evitamos que al dar click en el item de la tarea nos vaya a su edición
+              onItemClick(position)                        // evitamos que al dar click en el item de la tarea nos vaya a su edición
         }
      // cuando hacemos click en el CHECKBOX del item en el MainActivity
         holder.binding.doneCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
@@ -31,9 +34,13 @@ class TareasAdapter (var items: List<class_Tarea>,
         holder.binding.deleteButton.setOnClickListener {
             onItemDelete(position)
         }
-    // cuando hacemos CLICK en el item seleccionado del MainActivity
+     // cuando hacemos CLICK en el item seleccionado del MainActivity
         holder.binding.editButton.setOnClickListener {
             onItemClick(position)
+        }
+     // Cuando hacemos click al boton DUPLICAR del item en el MainActivity
+        holder.binding.copyButton.setOnClickListener {
+            onItemDuplicate(position)
         }
     }
 
