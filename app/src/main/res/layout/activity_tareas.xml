@@ -28,31 +28,82 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fechaStartTextField"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha de inicio"
-            app:counterEnabled="true"
-            app:counterMaxLength="20">
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/fechaInicioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@drawable/icono_calendario"
+                app:tint="@color/purple_500" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fechaFinTextField"
+            <ImageButton
+                android:id="@+id/horaInicioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@drawable/icono_reloj"
+                app:tint="@color/purple_500" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fechaInicioTextField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:hint="Fecha de inicio"
+                app:counterEnabled="true"
+                android:clickable="false"
+                android:focusable="false"
+                app:counterMaxLength="20">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha finalización"
-            app:counterEnabled="true"
-            app:counterMaxLength="20">
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/fechaFinButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@drawable/icono_calendario"
+                app:tint="@color/purple_500"
+                android:layout_gravity="top"/>
+
+            <ImageButton
+                android:id="@+id/horaFinButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@drawable/icono_reloj"
+                app:tint="@color/purple_500" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fechaFinTextField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:hint="Fecha finalización"
+                app:counterEnabled="true"
+                android:clickable="false"
+                android:focusable="false"
+                app:counterMaxLength="20">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/blogTextField"

@@ -29,10 +29,10 @@ class Tareas_DAO(val context: Context) {
     fun insert(tarea: class_Tarea){
         val values = ContentValues().apply {
             put(class_Tarea.COLUMN_NAME,          tarea.name)
-            put(class_Tarea.COLUMN_FECHACREATE,   tarea.fechaCreate)
-            put(class_Tarea.COLUMN_FECHASTART,    tarea.fechaStart)
-            put(class_Tarea.COLUMN_FECHAEND,      tarea.fechaEnd)
-            put(class_Tarea.COLUMN_OBSERVACIONES, tarea.observaciones)
+            put(class_Tarea.COLUMN_FECHACREATE,   tarea.fechaCreacion)
+            put(class_Tarea.COLUMN_FECHASTART,    tarea.fechaInicio)
+            put(class_Tarea.COLUMN_FECHAEND,      tarea.fechaFin)
+            put(class_Tarea.COLUMN_OBSERVACIONES, tarea.comentario)
             put(class_Tarea.COLUMN_DONE,          tarea.done)
         }
 
@@ -53,9 +53,9 @@ class Tareas_DAO(val context: Context) {
     fun update(tarea: class_Tarea){
         val values = ContentValues().apply {
             put(class_Tarea.COLUMN_NAME,          tarea.name)
-            put(class_Tarea.COLUMN_FECHASTART,    tarea.fechaStart)
-            put(class_Tarea.COLUMN_FECHAEND,      tarea.fechaEnd)
-            put(class_Tarea.COLUMN_OBSERVACIONES, tarea.observaciones)
+            put(class_Tarea.COLUMN_FECHASTART,    tarea.fechaInicio)
+            put(class_Tarea.COLUMN_FECHAEND,      tarea.fechaFin)
+            put(class_Tarea.COLUMN_OBSERVACIONES, tarea.comentario)
             put(class_Tarea.COLUMN_DONE,          tarea.done)
         }
 

@@ -3,10 +3,10 @@ package com.example.listadetareas.data.entities
 data class class_Tarea(
     val id: Long,
     var name: String,
-    var fechaCreate: String = "",
-    var fechaStart: String = "",
-    var fechaEnd: String = "",
-    var observaciones: String = "",
+    var fechaCreacion: String,
+    var fechaInicio: String,
+    var fechaFin: String,
+    var comentario: String = "",
     var done: Boolean = false){
 
     companion object {
