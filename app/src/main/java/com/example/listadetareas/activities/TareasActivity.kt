@@ -3,6 +3,9 @@ package com.example.listadetareas.activities
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -109,22 +112,22 @@ class TareasActivity : AppCompatActivity() {
 
      // Listener al pulsar el boton de calendario fecha inicio
         binding.fechaInicioButton.setOnClickListener {
-            showDatePicker(1)
+            showDatePicker(binding.fechaInicioTextField.editText)
         }
 
      // Listener al pulsar el boton de calendario fecha inicio
         binding.fechaFinButton.setOnClickListener {
-            showDatePicker(2)
+            showDatePicker(binding.fechaFinTextField.editText)
         }
 
         // Listener al pulsar el bonton del reloj de hora inicio
         binding.horaInicioButton.setOnClickListener {
-            showTimePicker(1)
+            showTimePicker(binding.fechaInicioTextField.editText)
         }
 
         // Listener al pulsar el boton del reloj de hora fin
         binding.horaFinButton.setOnClickListener {
-            showTimePicker(2)
+            showTimePicker(binding.fechaFinTextField.editText)
         }
 
         // listener al pulsar el botón de guardar  ----------------------------------------------------
@@ -149,7 +152,7 @@ class TareasActivity : AppCompatActivity() {
     }
 
  // Funcion para generar un DATEPICKER desde código ------------------------------------------------
-    private fun showDatePicker(accion: Int) {
+    private fun showDatePicker(vista: View?) {
         var hora: String
         val datePickerDialog = DatePickerDialog(
             this, { DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
@@ -158,15 +161,14 @@ class TareasActivity : AppCompatActivity() {
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())        // Create a SimpleDateFormat to format the date as "dd/MM/yyyy"
                 val formattedDate = dateFormat.format(selectedDate.time)                            // Format the selected date into a string
 
-                when (accion) {
-                    1 -> {
-                           hora = binding.fechaInicioTextField.editText?.text.toString().substring(10, binding.fechaInicioTextField.editText?.text.toString().length)
-                           binding.fechaInicioTextField.editText?.setText("$formattedDate" + hora)
-                    }
-                    else -> {
-                              hora = binding.fechaFinTextField.editText?.text.toString().substring(10, binding.fechaFinTextField.editText?.text.toString().length)
-                              binding.fechaFinTextField.editText?.setText("$formattedDate" + hora)
-                            }
+                if (vista is EditText) {
+                    vista as EditText
+                    vista?.setText("$formattedDate")
+                } else if (vista is TextView) {
+                    vista as TextView
+                    vista?.text = "$formattedDate"
+                } else {
+                    //error
                 }
             },
 
@@ -178,23 +180,24 @@ class TareasActivity : AppCompatActivity() {
         datePickerDialog.show()                                                                 // Show the DatePicker dialog
     }
 
-// Funcion para generar un DATEPICKER desde código  ------------------------------------------------
-    fun showTimePicker(accion: Int) {
+// Funcion para generar un TIMEPICKER desde código  ------------------------------------------------
+    fun showTimePicker(vista: View?) {
         var fecha: String
         val cal = Calendar.getInstance()
         val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
             cal.set(Calendar.HOUR_OF_DAY, hour)
             cal.set(Calendar.MINUTE, minute)
 
-            when (accion) {
-                1 -> {
-                       fecha =  binding.fechaInicioTextField.editText?.text.toString().substring(0,10)                         // guardamos la fecha inicio
-                       binding.fechaInicioTextField.editText?.setText(fecha + "  -  " + SimpleDateFormat("HH:mm").format(cal.time))
-                     }
-                else -> {
-                          fecha =  binding.fechaFinTextField.editText?.text.toString().substring(0,10)                         // guardamos la fecha fin
-                          binding.fechaFinTextField.editText?.setText(fecha + "  -  " + SimpleDateFormat("HH:mm").format(cal.time))
-                        }
+            if (vista is EditText) {
+                if (vista is EditText) {
+                    vista as EditText
+                    vista?.setText(SimpleDateFormat("HH:mm").format(cal.time))
+                } else if (vista is TextView) {
+                    vista as TextView
+                    vista?.setText(SimpleDateFormat("HH:mm").format(cal.time))
+                } else {
+                    // error
+                }
             }
         }
 
